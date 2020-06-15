@@ -1,0 +1,94 @@
+.star-checkbox {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	width: 1em !important;
+	height: 1em !important;
+	min-width: 1em !important;
+	max-width: 1em !important;
+	overflow: visible;
+	font-size: 18px;
+	border-radius: 2px;
+	z-index: 0;
+	line-height: 1;
+	cursor: default;
+}
+
+.star-checkbox > input {
+	position: relative;
+	width: inherit;
+	height: inherit;
+	margin: 0;
+	padding: 0;
+	z-index: 1;
+	opacity: 0;
+	outline: transparent;
+	cursor: inherit;
+}
+
+.star-checkbox > .checkbox-decoration {
+	box-sizing: border-box;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	color: #fff;
+	background: #fff;
+	border-radius: inherit;
+	border: 2px solid #C8C8C8;
+	text-align: center;
+	line-height: calc(1em / 2 - 2px);
+}
+
+.star-checkbox > .checkbox-decoration::after {
+	content: '';
+	visibility: hidden;
+	box-sizing: border-box;
+	display: inline-block;
+	width: 9px;
+	height: 5px;
+	transform-origin: center center;
+	border: 2px solid currentColor;
+	border-top: none;
+	border-right: none;
+	border-bottom-left-radius: 1px;
+	transform: translateY(-1px) rotate(-45deg);
+}
+
+.star-checkbox > input:checked + .checkbox-decoration {
+	background-color: var(--text-primary);
+	border-color: var(--text-primary);
+}
+.star-checkbox > input:checked + .checkbox-decoration::after {
+	visibility: visible;
+}
+
+.star-checkbox > input:hover + .checkbox-decoration,
+.star-checkbox > input:focus + .checkbox-decoration {
+	border-color: var(--color-accent-primary);
+}
+.star-checkbox > input:checked:hover + .checkbox-decoration,
+.star-checkbox > input:checked:focus + .checkbox-decoration {
+	background-color: var(--color-accent-primary);
+}
+
+.star-checkbox > input:focus + .checkbox-decoration {
+   box-shadow: 0 0 0 3px var(--color-selected);
+}
+.star-checkbox > input:focus:hover + .checkbox-decoration {
+   box-shadow: none;
+}
+
+.star-checkbox > input[disabled] + .checkbox-decoration,
+.star-checkbox > input[disabled]:hover + .checkbox-decoration {
+	/* background: none; */
+	border-color: #C8C8C8;
+	box-shadow: none;
+	opacity: 0.35;
+}
+.star-checkbox > input[disabled]:checked + .checkbox-decoration {
+	background-color: var(--text-primary);
+	border-color: var(--text-primary);
+}
