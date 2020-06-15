@@ -15,10 +15,11 @@ notifications:
     on_failure: change
 deploy:
   edge: true
-  provider: npm
-  api_token: "$NPM_TOKEN"
+  provider: pages
   cleanup: true
-  access: public
+  keep_history: false
+  github_token: $GITHUB_AUTH_TOKEN
+  local_dir: src
+  verbose: true
   on:
-    tags: true
-    branch: master  
+    branch: master
