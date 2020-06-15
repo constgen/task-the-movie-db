@@ -1,0 +1,31 @@
+{
+	"name": "task-the-movie-db",
+	"version": "1.0.0",
+	"description": "Test task for JavaScript SPA",
+	"main": ".eslintrc.js",
+	"scripts": {
+		"start": "browser-sync start --server \"src\" --files \"src\" --open \"external\" --no-notify --no-ghost-mode",
+		"eslint": "eslint ./ --ext .js,.jsx,.html,.md",
+		"pretest": "npm run eslint -- --format codeframe --max-warnings 0",
+		"lint": "npm run eslint -- --fix"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/constgen/task-the-movie-db.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/constgen/task-the-movie-db/issues"
+	},
+	"homepage": "https://github.com/constgen/task-the-movie-db#readme",
+	"devDependencies": {
+		"@constgen/eslint": "^1.1.0",
+		"eslint": "^6.8.0",
+		"neutrino": "^9.2.0"
+	},
+	"dependencies": {
+		"browser-sync": "^2.26.7"
+	}
+}
