@@ -10,11 +10,11 @@ html {
 }
 
 body {
-	color: #000;
-	background: #eee;
-	/* background: rgb(147, 33, 35); */
+	color: var(--text-primary);
+	background: #22323d;
+	font-size: 14px;
 	font-family: 'PT Sans', Calibri, 'Trebuchet MS', Roboto, Arial, Helvetica, sans-serif;
-	line-height: 1.1;
+	line-height: 1.3;
 	overflow: auto;
 }
 
@@ -22,10 +22,32 @@ body {
 	display: none;
 }
 
+.page-wrapper {
+	display: block;
+	margin: 0 auto 100px;
+	max-width: 860px;
+	padding: 0 20px;
+}
+
+h1 {
+	font-size: 28px;
+	margin: 0 0 1em;
+	font-weight: normal;
+	color: var(--text-primary);
+}
+
+h2 {
+	font-size: 24px;
+	margin: 0 0 0.5em;
+	font-weight: normal;
+	color: var(--text-primary);
+}
+
 h3 {
 	font-size: 20px;
-	margin: 0 0 1.5em;
+	margin: 0 0 0.5em;
 	font-weight: normal;
+	color: var(--text-primary);
 }
 
 

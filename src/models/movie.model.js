@@ -1,4 +1,4 @@
-const IMAGE_WIDTH = 500
+const IMAGE_WIDTH = 154
 const IMAGE_CDN_URL = 'https://image.tmdb.org/t/p'
 
 export default class Movie {

@@ -1,0 +1,19 @@
+.page-header {
+	box-sizing: border-box;
+	display: block;
+	height: 100px;
+	padding-top: 20px;
+	margin-bottom: 35px;
+	background-color: var(--color-accent-secondary);
+	text-align: center;
+}
+
+.page-header .logo {
+	display: inline-block;
+}
+
+.page-header .logo img {
+	display: block;
+	width: 70px;
+	height: auto;
+}

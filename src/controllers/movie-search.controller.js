@@ -7,21 +7,21 @@ import getScrollParent from '../utils/get-scroll-parent.js'
 import isVisibleInScrollParent from '../utils/is-visible-in-scroll-parent.js'
 import Movie from '../models/movie.model.js'
 
-let searchBoxForm = document.querySelector('.movies-search .search-box')
+let searchBoxForm = document.querySelector('.movies .search-box')
 let searchInputField = searchBoxForm.querySelector('input')
-let searchResultElem = document.querySelector('.movies-search .search-results')
-let errorMessageElem = document.querySelector('.movies-search .search-error')
-let infinteLoaderElem = document.querySelector('.movies-search .infinite-loader')
+let moviesListElem = document.querySelector('.movies .movies-list')
+let errorMessageElem = document.querySelector('.movies .search-error')
+let infinteLoaderElem = document.querySelector('.movies .infinite-loader')
 let infinteScrollElem = getScrollParent(infinteLoaderElem)
-let insertToResults = insertHtmlTo(searchResultElem)
-let appendToResults = appendHtmlTo(searchResultElem)
+let insertToList = insertHtmlTo(moviesListElem)
+let appendToList = appendHtmlTo(moviesListElem)
 let insertToErrors = insertHtmlTo(errorMessageElem)
-let concat = reduce(sum, 0)
+let concatHtml = reduce(sum, '')
 let pageIndex = 1
 let infinteLoaderVisible
 
 function showSearchError (err) {
-	insertToResults('')
+	insertToList('')
 	insertToErrors(err.message)
 	return err.message
 }
@@ -40,8 +40,8 @@ function searchMovies (filterText) {
 		.search(filterText)
 		.then(map(toMovie))
 		.then(map(movieItemHtml))
-		.then(concat)
-		.then(insertToResults)
+		.then(concatHtml)
+		.then(insertToList)
 		.then(clearErrors)
 		.catch(showSearchError)
 }
@@ -52,8 +52,8 @@ function searchNextMovies (filterText) {
 		.search(filterText, pageIndex)
 		.then(map(toMovie))
 		.then(map(movieItemHtml))
-		.then(concat)
-		.then(appendToResults)
+		.then(concatHtml)
+		.then(appendToList)
 		.catch(showSearchError)
 }
 
