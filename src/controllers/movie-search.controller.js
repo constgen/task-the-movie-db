@@ -1,4 +1,5 @@
 import movies from '../services/movies.service.js'
+import favorites from '../services/favorites.service.js'
 import { on, insertHtmlTo, appendHtmlTo, preventEvent } from '../utils/dom.js'
 import { map, reduce } from '../utils/fp.js'
 import { sum } from '../utils/math.js'
@@ -32,7 +33,10 @@ function clearErrors (data) {
 }
 
 function toMovie (data) {
-	return new Movie(data)
+	let { id } = data
+	let favorite = favorites.isFavorite(id)
+
+	return new Movie({ ...data, favorite })
 }
 
 function searchMovies (filterText) {
@@ -77,7 +81,20 @@ function handlePagination (data) {
 	return data
 }
 
+function handleFavoriteChange (event) {
+	let { value, checked } = event.target
+	let id = JSON.parse(value)
+
+	if (checked) {
+		favorites.add(id)
+	}
+	else {
+		favorites.remove(id)
+	}
+}
+
 on('submit', searchBoxForm, preventEvent)
 on('submit', searchBoxForm, handleSearch)
 on('input', searchInputField, handleSearch)
 on('scroll', infinteScrollElem, handlePagination)
+on('change', moviesListElem, handleFavoriteChange)

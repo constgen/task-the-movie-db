@@ -6,7 +6,7 @@ module.exports = {
          eslint: {
 				env: { browser: true },
 				rules: {
-					'import/extensions': 'off'
+					'import/extensions': ['error', 'always', {ignorePackages: true} ]
 				}
          }
       })

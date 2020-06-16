@@ -17,6 +17,7 @@ export default class Movie {
 		this.video = Boolean(info.video)
 		this.vote_average = parseFloat(info.vote_average)
 		this.vote_count = parseInt(info.vote_count, 10)
+		this.favorite = Boolean(info.favorite)
 	}
 
 	get releaseYear () {
