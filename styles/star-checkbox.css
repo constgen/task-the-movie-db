@@ -1,0 +1,89 @@
+.star-checkbox {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	width: 1em !important;
+	height: 1em !important;
+	min-width: 1em !important;
+	max-width: 1em !important;
+	overflow: visible;
+	font-size: 30px;
+	border-radius: 4px;
+	z-index: 0;
+	line-height: 1;
+	cursor: default;
+}
+
+.star-checkbox > input {
+	position: relative;
+	width: inherit;
+	height: inherit;
+	margin: 0;
+	padding: 0;
+	z-index: 1;
+	opacity: 0;
+	outline: transparent;
+	cursor: inherit;
+}
+
+.star-checkbox > .checkbox-decoration {
+	box-sizing: border-box;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	color: var(--color-accent-complimentary);
+	background: #32414b;
+	border-radius: inherit;
+	border: 1px solid transparent;
+	text-align: center;
+	line-height: calc(1em / 2 - 1px);
+}
+
+.star-checkbox > .checkbox-decoration::before,
+.star-checkbox > .checkbox-decoration::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 10px;
+	height: 15px;
+	background-color: currentColor;
+	border-radius: 5px 5px 0 0;
+}
+
+.star-checkbox > .checkbox-decoration::before {
+	transform: translateY(-40%) rotate(-45deg);
+	transform-origin: 0 100%;
+}
+
+.star-checkbox > .checkbox-decoration::after {
+	transform: translateX(-100%) translateY(-40%) rotate(45deg) ;
+	transform-origin: 100% 100%;
+}
+
+.star-checkbox > input:checked + .checkbox-decoration {
+	color: var(--color-accent-primary);
+}
+.star-checkbox > input:checked + .checkbox-decoration::after {
+	visibility: visible;
+}
+
+.star-checkbox > input:hover + .checkbox-decoration,
+.star-checkbox > input:focus + .checkbox-decoration {
+	border-color: var(--color-accent-primary);
+}
+.star-checkbox > input:checked:hover + .checkbox-decoration,
+.star-checkbox > input:checked:focus + .checkbox-decoration {
+	
+}
+
+.star-checkbox > input[disabled] + .checkbox-decoration,
+.star-checkbox > input[disabled]:hover + .checkbox-decoration {
+	opacity: 0.35;
+}
+.star-checkbox > input[disabled]:checked + .checkbox-decoration {
+	
+}

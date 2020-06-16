@@ -1,0 +1,94 @@
+input {
+	display: inline-block;
+	vertical-align: middle;
+	box-sizing: border-box;
+	height: 2.571em; /* 36 */
+	width: 300px;
+	background: #fff;
+	border-radius: 1.285em; /* 18 */
+	border: 2px solid transparent;
+	font-family: inherit;
+	color: black;
+	font-size: 14px;
+	line-height: 1.285em; /* 18 */
+	padding: 0.571em 1em; /* 8 14 */
+	margin: 0;
+	text-align: left;
+	cursor: text;
+}
+
+input:focus {
+	box-shadow: 0 0 4px 0 rgba(242, 151, 35, 0.25);
+	border-color: var(--color-accent-primary);
+	outline: transparent;
+}
+
+input[disabled] {
+	opacity: 0.5;
+	background-color: #f4f5f7;
+	cursor: not-allowed;
+}
+
+input::placeholder {
+	color: var(--text-secondary);
+}
+
+button,
+.button,
+select {
+	display: inline-block;
+	vertical-align: baseline;
+	box-sizing: border-box;
+	height: 2em;
+	min-width: 100px;
+	padding: 0 0.5em;
+	margin: 0;
+	border: none;
+	box-shadow: none;
+	border-radius: 0.333em;
+	background-color: var(--color-accent-primary);
+	color: var(--text-primary);
+	font-size: 15px;
+	font-weight: normal;
+	text-transform: none;
+	text-decoration: none;
+	line-height: 2em;
+	cursor: default;
+}
+
+button,
+.button {
+	text-align: center;
+}
+
+a.button {
+	cursor: pointer;
+}
+
+button:hover,
+.button:hover {
+	
+}
+
+button:active,
+.button:active {
+	
+}
+
+button:focus,
+.button:focus {
+	outline: 1px dotted rgba(255, 255, 255, 0.5);
+}
+
+button:focus:hover,
+.button:focus:hover {
+	outline: none;
+}
+
+button[disabled],
+.button[disabled],
+select[disabled] {
+	opacity: 0.5;
+	box-shadow: none;
+	cursor: not-allowed;
+}

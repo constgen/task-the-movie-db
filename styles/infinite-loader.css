@@ -1,0 +1,31 @@
+
+.infinite-loader {
+	display: block;
+	margin: 20px auto;
+	width: 1em;
+	height: 1em;
+	font-size: 18px;
+	animation: spinning 1.2s linear infinite;
+	transform-origin: center center;
+}
+
+.infinite-loader::after {
+	content: '';
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	border: 0.111em solid;
+	border-color: var(--color-accent-complimentary) transparent var(--color-accent-complimentary) transparent;
+}
+
+@keyframes spinning {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
