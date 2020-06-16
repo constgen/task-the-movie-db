@@ -7,7 +7,9 @@ import movieItemHtml from '../templates/movie-item-html.template.js'
 import getScrollParent from '../utils/get-scroll-parent.js'
 import isVisibleInScrollParent from '../utils/is-visible-in-scroll-parent.js'
 import Movie from '../models/movie.model.js'
+import debounce from '../utils/debounce.js'
 
+const INPUT_DELAY = 400
 let searchBoxForm = document.querySelector('.movies .search-box')
 let searchInputField = searchBoxForm.querySelector('input')
 let moviesListElem = document.querySelector('.movies .movies-list')
@@ -95,6 +97,6 @@ function handleFavoriteChange (event) {
 
 on('submit', searchBoxForm, preventEvent)
 on('submit', searchBoxForm, handleSearch)
-on('input', searchInputField, handleSearch)
+on('input', searchInputField, debounce(handleSearch, INPUT_DELAY))
 on('scroll', infinteScrollElem, handlePagination)
 on('change', moviesListElem, handleFavoriteChange)
