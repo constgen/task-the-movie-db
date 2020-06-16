@@ -53,7 +53,6 @@ function toMovie (data) {
 }
 
 function getMoviesItems (data) {
-	console.log(data)
 	if (data.success === false) {
 		throw new Error(data.status_message)
 	}
