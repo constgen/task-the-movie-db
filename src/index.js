@@ -1,1 +1,1 @@
-import './controllers/movie-search.controller.js'
+import './controllers/movies.controller.js'
