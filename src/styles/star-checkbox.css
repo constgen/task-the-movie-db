@@ -42,18 +42,26 @@
 	line-height: calc(1em / 2 - 1px);
 }
 
+.star-checkbox > .checkbox-decoration::before,
 .star-checkbox > .checkbox-decoration::after {
 	content: '';
-	box-sizing: border-box;
-	display: inline-block;
-	width: 9px;
-	height: 5px;
-	transform-origin: center center;
-	border: 2px solid currentColor;
-	border-top: none;
-	border-right: none;
-	border-bottom-left-radius: 1px;
-	transform: translateY(-1px) rotate(-45deg);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 10px;
+	height: 15px;
+	background-color: currentColor;
+	border-radius: 5px 5px 0 0;
+}
+
+.star-checkbox > .checkbox-decoration::before {
+	transform: translateY(-40%) rotate(-45deg);
+	transform-origin: 0 100%;
+}
+
+.star-checkbox > .checkbox-decoration::after {
+	transform: translateX(-100%) translateY(-40%) rotate(45deg) ;
+	transform-origin: 100% 100%;
 }
 
 .star-checkbox > input:checked + .checkbox-decoration {
