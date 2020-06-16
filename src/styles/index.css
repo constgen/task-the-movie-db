@@ -16,6 +16,7 @@ body {
 	font-family: 'PT Sans', Calibri, 'Trebuchet MS', Roboto, Arial, Helvetica, sans-serif;
 	line-height: 1.3;
 	overflow: auto;
+	cursor: default;
 }
 
 [hidden] {

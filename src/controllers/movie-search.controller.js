@@ -15,13 +15,20 @@ let searchInputField = searchBoxForm.querySelector('input')
 let moviesListElem = document.querySelector('.movies .movies-list')
 let errorMessageElem = document.querySelector('.movies .search-error')
 let infinteLoaderElem = document.querySelector('.movies .infinite-loader')
+let filterSelectElem = document.querySelector('.movies .search-tools .select-filter')
+let orderSelectElem = document.querySelector('.movies .search-tools .select-order')
 let infinteScrollElem = getScrollParent(infinteLoaderElem)
 let insertToList = insertHtmlTo(moviesListElem)
 let appendToList = appendHtmlTo(moviesListElem)
 let insertToErrors = insertHtmlTo(errorMessageElem)
 let concatHtml = reduce(sum, '')
-let pageIndex = 1
-let infinteLoaderVisible
+let state = {
+	searchText: '',
+	page: 1,
+	byIds: [],
+	sort_by: undefined,
+	pending: undefined
+}
 
 function showSearchError (err) {
 	insertToList('')
@@ -41,9 +48,26 @@ function toMovie (data) {
 	return new Movie({ ...data, favorite })
 }
 
-function searchMovies (filterText) {
-	movies
-		.search(filterText)
+function requestMovies () {
+	let whenMoviesReady
+
+	searchInputField.disabled = false
+	filterSelectElem.disabled = false
+	orderSelectElem.disabled = false
+
+	if (state.searchText) {
+		whenMoviesReady = movies.search(state.searchText)
+		filterSelectElem.disabled = true
+		orderSelectElem.disabled = true
+	}
+	else if (state.byIds.length) {
+		whenMoviesReady = movies.getById(...state.byIds)
+		orderSelectElem.disabled = true
+	}
+	else {
+		whenMoviesReady = movies.get({ sort_by: state.sort_by })
+	}
+	whenMoviesReady
 		.then(map(toMovie))
 		.then(map(movieItemHtml))
 		.then(concatHtml)
@@ -52,10 +76,20 @@ function searchMovies (filterText) {
 		.catch(showSearchError)
 }
 
-function searchNextMovies (filterText) {
-	pageIndex += 1
-	movies
-		.search(filterText, pageIndex)
+function requestNextMovies () {
+	state.page += 1
+	let whenMoviesReady
+
+	if (state.searchText) {
+		whenMoviesReady = movies.search(state.searchText, state.page)
+	}
+	else if (state.byIds.length) {
+		whenMoviesReady = Promise.resolve([])
+	}
+	else {
+		whenMoviesReady = movies.get({ sort_by: state.sort_by }, state.page)
+	}
+	whenMoviesReady
 		.then(map(toMovie))
 		.then(map(movieItemHtml))
 		.then(concatHtml)
@@ -63,22 +97,20 @@ function searchNextMovies (filterText) {
 		.catch(showSearchError)
 }
 
-
 function handleSearch () {
-	let value = searchInputField.value
-
-	searchMovies(value, pageIndex)
+	state.page = 1
+	state.searchText = searchInputField.value
+	requestMovies()
 }
 
 function handlePagination (data) {
-	let value = searchInputField.value
 	let visible = isVisibleInScrollParent(infinteLoaderElem, infinteScrollElem)
-	let visibilityChanged = visible !== infinteLoaderVisible
+	let visibilityChanged = visible !== state.pending
 	let becameVisible = visibilityChanged && visible
 
-	infinteLoaderVisible = visible
-	if (becameVisible && value) {
-		searchNextMovies(value)
+	state.pending = visible
+	if (becameVisible) {
+		requestNextMovies()
 	}
 	return data
 }
@@ -95,8 +127,30 @@ function handleFavoriteChange (event) {
 	}
 }
 
+function handleFilterChange (event) {
+	let { value } = event.target
+
+	state.byIds = []
+	if (value === 'favorites') {
+		state.byIds = favorites.getAll()
+	}
+	requestMovies()
+}
+
+function handleOrderChange (event) {
+	let { value } = event.target
+
+	state.page = 1
+	state.sort_by = value || undefined
+	requestMovies()
+}
+
 on('submit', searchBoxForm, preventEvent)
 on('submit', searchBoxForm, handleSearch)
 on('input', searchInputField, debounce(handleSearch, INPUT_DELAY))
 on('scroll', infinteScrollElem, handlePagination)
 on('change', moviesListElem, handleFavoriteChange)
+on('change', filterSelectElem, handleFilterChange)
+on('change', orderSelectElem, handleOrderChange)
+
+requestMovies()

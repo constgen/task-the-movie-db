@@ -10,6 +10,7 @@ export default function formatUrlQuery (query) {
 
 			while (++i in params) {
 				param = params[i]
+				if (query[param] === undefined) continue
 				search.push(`${param}=${query[param]}`)
 			}
 			return search.length ? (`?${encodeURI(search.join('&'))}`) : ''
