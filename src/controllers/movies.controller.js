@@ -3,6 +3,7 @@ import favorites from '../services/favorites.service.js'
 import { on, insertHtmlTo, appendHtmlTo, preventEvent } from '../utils/dom.js'
 import { map, reduce } from '../utils/fp.js'
 import { sum } from '../utils/math.js'
+import noop from '../utils/noop.js'
 import movieItemHtml from '../templates/movie-item-html.template.js'
 import findScrollParent from '../utils/find-scroll-parent.js'
 import isVisibleInScrollParent from '../utils/is-visible-in-scroll-parent.js'
@@ -17,10 +18,13 @@ let errorMessageElem = document.querySelector('.movies .search-error')
 let infinteLoaderElem = document.querySelector('.movies .infinite-loader')
 let filterSelectElem = document.querySelector('.movies .search-tools .select-filter')
 let orderSelectElem = document.querySelector('.movies .search-tools .select-order')
+let moviesTitleElem = document.querySelector('.movies .movies-title')
+let countersTextElem = document.querySelector('.movies .counters-text')
 let infinteScrollElem = findScrollParent(infinteLoaderElem)
 let insertToList = insertHtmlTo(moviesListElem)
 let appendToList = appendHtmlTo(moviesListElem)
 let insertToErrors = insertHtmlTo(errorMessageElem)
+let insertToCountersText = insertHtmlTo(countersTextElem)
 let concatHtml = reduce(sum, '')
 let state = {
 	searchText: '',
@@ -48,17 +52,37 @@ function toMovie (data) {
 	return new Movie({ ...data, favorite })
 }
 
+function getMoviesItems (data) {
+	console.log(data)
+	if (data.success === false) {
+		throw new Error(data.status_message)
+	}
+	return data.results
+}
+
+function getMoviesCounters (data) {
+	if (data.success === false) {
+		throw new Error(data.status_message)
+	}
+	return {
+		count: data.results.length * data.page,
+		total: data.total_results
+	}
+}
+
 function requestMovies () {
 	let whenMoviesReady
 
 	searchInputField.disabled = false
 	filterSelectElem.disabled = false
 	orderSelectElem.disabled = false
+	insertHtmlTo(moviesTitleElem, filterSelectElem.selectedOptions[0].textContent)
 
 	if (state.searchText) {
 		whenMoviesReady = movies.search(state.searchText)
 		filterSelectElem.disabled = true
 		orderSelectElem.disabled = true
+		insertHtmlTo(moviesTitleElem, `Search results for '${state.searchText}'`)
 	}
 	else if (state.byIds.length) {
 		whenMoviesReady = movies.getById(...state.byIds)
@@ -67,7 +91,17 @@ function requestMovies () {
 	else {
 		whenMoviesReady = movies.get({ sort_by: state.sort_by })
 	}
+
 	whenMoviesReady
+		.then(getMoviesCounters)
+		.then(function ({ count, total }) {
+			return `Showing ${count} of a total of ${total} movies`
+		})
+		.then(insertToCountersText)
+		.catch(noop)
+
+	whenMoviesReady
+		.then(getMoviesItems)
 		.then(map(toMovie))
 		.then(map(movieItemHtml))
 		.then(concatHtml)
@@ -84,12 +118,22 @@ function requestNextMovies () {
 		whenMoviesReady = movies.search(state.searchText, state.page)
 	}
 	else if (state.byIds.length) {
-		whenMoviesReady = Promise.resolve([])
+		whenMoviesReady = new Promise(noop)
 	}
 	else {
 		whenMoviesReady = movies.get({ sort_by: state.sort_by }, state.page)
 	}
+
 	whenMoviesReady
+		.then(getMoviesCounters)
+		.then(function ({ count, total }) {
+			return `Showing ${count} of a total of ${total} movies`
+		})
+		.then(insertToCountersText)
+		.catch(noop)
+
+	whenMoviesReady
+		.then(getMoviesItems)
 		.then(map(toMovie))
 		.then(map(movieItemHtml))
 		.then(concatHtml)
