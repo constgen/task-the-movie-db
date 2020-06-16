@@ -4,7 +4,7 @@ import { on, insertHtmlTo, appendHtmlTo, preventEvent } from '../utils/dom.js'
 import { map, reduce } from '../utils/fp.js'
 import { sum } from '../utils/math.js'
 import movieItemHtml from '../templates/movie-item-html.template.js'
-import getScrollParent from '../utils/get-scroll-parent.js'
+import findScrollParent from '../utils/find-scroll-parent.js'
 import isVisibleInScrollParent from '../utils/is-visible-in-scroll-parent.js'
 import Movie from '../models/movie.model.js'
 import debounce from '../utils/debounce.js'
@@ -17,7 +17,7 @@ let errorMessageElem = document.querySelector('.movies .search-error')
 let infinteLoaderElem = document.querySelector('.movies .infinite-loader')
 let filterSelectElem = document.querySelector('.movies .search-tools .select-filter')
 let orderSelectElem = document.querySelector('.movies .search-tools .select-order')
-let infinteScrollElem = getScrollParent(infinteLoaderElem)
+let infinteScrollElem = findScrollParent(infinteLoaderElem)
 let insertToList = insertHtmlTo(moviesListElem)
 let appendToList = appendHtmlTo(moviesListElem)
 let insertToErrors = insertHtmlTo(errorMessageElem)

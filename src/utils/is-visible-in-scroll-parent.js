@@ -1,10 +1,13 @@
+import getOffsetInParent from './get-offset-in-parent.js'
+
 function getPositionInScrollParent (elem, parent) {
+	let offset = getOffsetInParent(elem, parent)
+
 	return {
-		left: elem.offsetLeft - parent.offsetLeft - parent.scrollLeft,
-		top: elem.offsetTop - parent.offsetTop - parent.scrollTop
+		left: offset.left - parent.scrollLeft,
+		top: offset.top - parent.scrollTop
 	}
 }
-
 
 export default function isVisibleInScrollParent (elem, scrollParent) {
 	let position = getPositionInScrollParent(elem, scrollParent)
